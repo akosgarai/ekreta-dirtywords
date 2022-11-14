@@ -8,7 +8,7 @@ class Application {
 	initCanvasVariables() {
 		this.dashLen = 100;
 		this.dashOffset = 100;
-		this.speed = 5;
+		this.speed = document.getElementById('speed').value;
 		this.dirtyWord = '';
 		this.index = 0;
 		this.x = 10;
@@ -18,9 +18,9 @@ class Application {
 		this.ctx.font = this.getFont();
 		this.ctx.lineWidth = 4;
 		this.ctx.lineJoin = "round";
-		this.ctx.globalAlpha = 2/3;
-		this.ctx.strokeStyle = "#ffffff";
-		this.ctx.fillStyle = "#ffffff";
+		this.ctx.globalAlpha = document.getElementById('alpha').value;
+		this.ctx.strokeStyle = document.getElementById('stroke-color').value;
+		this.ctx.fillStyle = document.getElementById('fill-color').value;
 		this.ctx.clearRect(0, 0, canvas.width, canvas.height);
 		this.dashWidth = this.ctx.measureText('–').width + this.ctx.lineWidth * Math.random();
 	}
@@ -45,8 +45,8 @@ class Application {
 			for (let i = 0; i < dirtyWords.length; i++) {
 				this.dirtyWords.push(dirtyWords[i].childNodes[0].nodeValue);
 			}
-			// show the hidden button
-			document.getElementById('get-dirty').style.display = 'block';
+			// show the settings panel
+			document.getElementById('settings-panel').style.display = 'block';
 		}
 	}
 	// returns a random element from the dirty words array

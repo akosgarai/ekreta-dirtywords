@@ -5,7 +5,13 @@
 		<title>E-Kreta DirtyWords!</title>
 	</head>
 	<body>
-		<button onclick="app.displayNewDirty()" id="get-dirty" style="display: none;">Kérek szépen egy kifejezést!</button>
+		<div id="settings-panel" style="display: none;">
+			<label for="stroke-color"><input type="color" id="stroke-color" value="#ffffff">Körvonal</label>
+			<label for="fill-color"><input type="color" id="fill-color" value="#ffffff">Kitöltő</label>
+			<label for="speed"><input type="number" id="speed" value="5" min="0" max="10" step="0.01">Sebesség</label>
+			<label for="alpha"><input type="number" id="alpha" value="0.66" min="0" max="1" step="0.01">Alpha</label>
+			<button onclick="app.displayNewDirty()" id="get-dirty" style="display: inline-block">Kérek szépen egy kifejezést!</button>
+		</div>
 		<canvas id="canvas" style="background-color: black; width: 100%; height: 600px;"></canvas>
 		<script type="text/javascript">
 			var app = new Application();
