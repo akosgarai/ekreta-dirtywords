@@ -14,7 +14,6 @@ class Application {
 		this.x = 10;
 		this.y = 0;
 		const canvas = document.getElementById('canvas');
-		const fontSizeRatio = 50 / 1845;
 		this.ctx = canvas.getContext('2d');
 		this.ctx.font = this.getFont();
 		this.ctx.lineWidth = 4;
@@ -23,13 +22,12 @@ class Application {
 		this.ctx.strokeStyle = "#ffffff";
 		this.ctx.fillStyle = "#ffffff";
 		this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+		this.dashWidth = this.ctx.measureText('–').width + this.ctx.lineWidth * Math.random();
 	}
 	// calculate the font size based on the canvas size
 	// and return the string to be used for the canvas.font property
 	getFont() {
-		const canvas = document.getElementById('canvas');
-		const fontSizeRatio = 90 / 1000;
-		return '50px Comic Sans MS, cursive, TSCu_Comic, sans-serif';
+		return '40px Comic Sans MS, cursive, TSCu_Comic, sans-serif';
 	}
     // Download the dirty words xml, parse it to JSON and store it in a variable.
 	doDownload() {
@@ -58,18 +56,15 @@ class Application {
 	displayNewDirty() {
 		this.initCanvasVariables();
 		this.dirtyWord = this.getDirty();
-		//this.dirtyWord = 'árvíztűrő tükörfúrógép';
 		this.render();
 	}
 	render() {
-		//this.ctx.font = this.getFont();
 		if (this.dashOffset <= 0) {
 			this.ctx.fillText(this.dirtyWord[this.index], this.x, this.y + 50);  // fill final letter
 			this.dashOffset = this.dashLen;                                      // prep next char
 			const nextCharSize = this.ctx.measureText(this.dirtyWord[this.index++]).width + this.ctx.lineWidth * Math.random();
-			const dashWidth = this.ctx.measureText('–').width + this.ctx.lineWidth * Math.random();
 			// if the next size is bigger than the canvas width, start a new line
-			if (typeof this.dirtyWord[this.index] !== 'undefined' && this.x + nextCharSize + dashWidth > this.ctx.canvas.width) {
+			if (typeof this.dirtyWord[this.index] !== 'undefined' && this.x + nextCharSize + this.dashWidth > this.ctx.canvas.width) {
 				// if the previous character is a space or '-', just start a new line
 				// otherwise add a '-' to the end of the previous line
 				if (this.dirtyWord[this.index - 1] === ' ' || this.dirtyWord[this.index - 1] === '-') {
@@ -77,7 +72,7 @@ class Application {
 					this.y += 60;
 				} else {
 					this.dirtyWord = this.dirtyWord.substring(0, this.index) + '-' + this.dirtyWord.substring(this.index);
-					this.x += dashWidth;
+					this.x += this.dashWidth;
 				}
 			} else {
 				this.x += nextCharSize;
