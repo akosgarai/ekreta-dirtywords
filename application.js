@@ -67,10 +67,18 @@ class Application {
 			this.ctx.fillText(this.dirtyWord[this.index], this.x, this.y + 50);  // fill final letter
 			this.dashOffset = this.dashLen;                                      // prep next char
 			const nextCharSize = this.ctx.measureText(this.dirtyWord[this.index++]).width + this.ctx.lineWidth * Math.random();
+			const dashWidth = this.ctx.measureText('–').width + this.ctx.lineWidth * Math.random();
 			// if the next size is bigger than the canvas width, start a new line
-			if (this.x + nextCharSize > this.ctx.canvas.width - 30) {
-				this.x = 10;
-				this.y += 60;
+			if (typeof this.dirtyWord[this.index] !== 'undefined' && this.x + nextCharSize + dashWidth > this.ctx.canvas.width) {
+				// if the previous character is a space or '-', just start a new line
+				// otherwise add a '-' to the end of the previous line
+				if (this.dirtyWord[this.index - 1] === ' ' || this.dirtyWord[this.index - 1] === '-') {
+					this.x = 10;
+					this.y += 60;
+				} else {
+					this.dirtyWord = this.dirtyWord.substring(0, this.index) + '-' + this.dirtyWord.substring(this.index);
+					this.x += dashWidth;
+				}
 			} else {
 				this.x += nextCharSize;
 			}
